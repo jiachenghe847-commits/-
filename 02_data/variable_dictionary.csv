@@ -1,0 +1,18 @@
+﻿变量名,含义,单位,数据来源,说明,预期符号
+iso3c,国家ISO3代码,—,IEA/WB,国家标识,字符型
+country,国家名称,—,World Bank,国家标识,字符型
+year,年份,年,—,时间标识,整数
+income_group,WB收入分组,—,World Bank,异质性分组(HIC/UMC/LMC),字符型
+ev_sales_share_cars,EV乘用车销售占比【因变量】,%,IEA Global EV Outlook 2025,新售车辆中EV比例,(+)
+ev_stock_share_cars,EV乘用车保有占比【稳健性因变量】,%,IEA Global EV Outlook 2025,在用车辆中EV比例,(+)
+gdp_pc_ppp,人均GDP(PPP购买力平价),国际美元,World Bank API (NY.GDP.PCAP.PP.CD),居民购买力,(+)
+ln_gdp_pc_ppp,ln(人均GDP),自然对数,推导,平滑化,(+)
+population,人口总数,人,World Bank API (SP.POP.TOTL),市场规模,(±)
+ln_population,ln(人口),自然对数,推导,平滑化,(±)
+brent_usd,Brent原油年均价,美元/桶,EIA,燃油车运行成本代理,(+)
+ln_brent,ln(Brent油价),自然对数,推导,平滑化,(+)
+chargers_total,公用充电桩总数,个,IEA Global EV Outlook 2025,快充+慢充,(+)
+chargers_per_mn,充电桩密度(每百万人),个/百万人,推导,基础设施水平,(+)
+chargers_per_mn_itp,充电桩密度(线性插值后)【主解释变量】,个/百万人,推导,用于缓解偶发缺失并刻画基础设施完善度,(+)
+chargers_growth,充电桩年增长率,比例,推导,建设速度,(+)
+chargers_growth_lag1,充电桩增长率(滞后1期),比例,推导,用于稳健性/机制扩展,(±)

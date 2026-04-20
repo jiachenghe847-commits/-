@@ -1,0 +1,305 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{array}
+
+\onehalfspacing
+\captionsetup{font=small}
+
+\title{Determinants of New Energy Vehicle Penetration from a Cross-Country Perspective\\
+\large Evidence from a 53-Country Panel (2015--2024)}
+\author{National College Statistical Modeling Competition Submission}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Under global decarbonization and transport electrification, identifying the drivers of new energy vehicle (NEV) penetration is critical for both industrial policy and carbon-transition strategy. Using an unbalanced panel of 53 countries from 2015 to 2024, this study estimates fixed-effects models and a two-way fixed-effects specification to test the effects of income, energy prices, market size, and charging infrastructure dynamics on EV penetration.
+
+The main findings are as follows. First, $\ln(\text{GDP per capita, PPP})$ is the most robust positive predictor across baseline and robustness models. Second, replacing charger growth with charger-density level improves identification: interpolated charger density (per million people) is significantly positive in FE/TWFE specifications. Third, in the two-way fixed-effects model, global oil-price variation is absorbed by year effects. Fourth, heterogeneity analysis shows that charger-density effects are positive in both groups and stronger in non-high-income economies, consistent with higher marginal infrastructure returns at lower baseline levels.
+
+Policy implications are direct: policy focus should gradually shift from one-time purchase subsidies toward usage-side support (charging networks and operating-cost optimization), and implementation should be differentiated by development stage. For China, this implies combining nationwide infrastructure acceleration with region-specific policy calibration to better serve national strategic goals through data-driven policy design.
+
+\textbf{Keywords:} EV penetration; panel data; two-way fixed effects; charging infrastructure; heterogeneity
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+EV penetration has become a key indicator of transport-sector decarbonization. Compared with single-country studies, cross-country panel analysis can better identify structural regularities across heterogeneous economies. This paper focuses on a competition-relevant question: which factors are statistically robust and policy-actionable for accelerating EV adoption across different development stages?
+
+This paper addresses three questions:
+\begin{enumerate}
+    \item What are the directions and magnitudes of the effects of income, oil price, population size, and charging infrastructure on EV penetration?
+    \item Do these findings remain robust under a stricter two-way fixed-effects specification?
+    \item Are there significant differences between high-income and non-high-income economies?
+\end{enumerate}
+
+\section{Literature Review}
+\subsection{Policy incentives and EV diffusion}
+Prior studies show that fiscal incentives, tax relief, and purchase subsidies can increase EV adoption, especially in early market formation \cite{Sierzchula2014,Hall2017}. However, policy effectiveness often decays as markets mature, and long-run diffusion depends on total usage cost rather than one-time subsidies alone \cite{Hardman2018}.
+
+\subsection{Charging infrastructure and network effects}
+Infrastructure is widely recognized as a core determinant of EV demand because charging convenience affects expected utility and range-anxiety costs. Evidence on indirect network effects suggests that public charging deployment can amplify EV market expansion \cite{Li2017}. Cross-country comparisons also indicate that infrastructure elasticity is heterogeneous and interacts with local income and market maturity.
+
+\subsection{Research gap and this paper's contribution}
+The existing literature is rich in single-country or short-period analyses, but comparability across countries and identification under common global shocks remain challenging. This paper contributes by: (i) using a harmonized 53-country panel (2015--2024), (ii) combining country fixed effects and two-way fixed effects to separate structural drivers from time shocks, and (iii) testing whether the infrastructure channel is development-stage dependent.
+
+\section{Data, Variables, and Descriptive Statistics}
+\subsection{Data and sample}
+The study integrates IEA, World Bank, and EIA sources \cite{IEA2025,WorldBankWDI,EIABrent}. After removing aggregate regions (e.g., World, EU27), the final panel contains 53 countries and 501 country-year observations (2015--2024). Charger-density gaps are handled with short-gap linear interpolation (up to two consecutive years within country trajectories). The main regression sample is 346 observations.
+
+\subsection{Data documentation and variable definitions}
+Table~\ref{tab:data_dict} reports key variables, definitions, units, and data sources.
+
+\begin{table}[H]
+\centering
+\caption{Data description table}
+\label{tab:data_dict}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{5.8cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}}
+\toprule
+Variable & Definition & Unit & Source \\
+\midrule
+EV sales share & EV passenger-car sales share (dependent variable) & \% & IEA Global EV Outlook 2025 \\
+EV stock share & EV passenger-car stock share (robustness dependent variable) & \% & IEA Global EV Outlook 2025 \\
+$\ln(\mathrm{GDPpc}_{PPP})$ & Natural log of GDP per capita (PPP) & log points & \shortstack[l]{World Bank (WDI)\\NY.GDP.PCAP.PP.CD} \\
+$\ln(\mathrm{Population})$ & Natural log of total population & log points & \shortstack[l]{World Bank (WDI)\\SP.POP.TOTL} \\
+$\ln(\text{Brent})$ & Natural log of annual average Brent price & log points & EIA Brent spot price \\
+Interpolated charger density & Public chargers per million people (interpolated) & units per million & IEA-derived \\
+Income group & High-income vs non-high-income classification & category & World Bank income grouping \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Preprocessing and missing-value treatment}
+Data were merged by ISO3-country and year after harmonizing country names. To mitigate selective sample loss from charger missingness, the paper applies linear interpolation to charger density for short gaps (maximum two consecutive years per country, two-direction fill within observed country paths). In the 2015--2024 window, coverage rates are 99.6\% for EV sales share, 63.3\% for raw charger totals, and 69.1\% for interpolated charger density; this increases the usable main-regression sample from 280 to 346 observations.
+
+\subsection{Descriptive statistics}
+Table~\ref{tab:desc} reports descriptive statistics. EV sales share has substantial dispersion (mean 8.47, SD 14.69), suggesting strong cross-country heterogeneity in electrification pathways. For example, the maximum value reaches 92.00\%, which is consistent with Norway's very high EV penetration in 2024.
+
+\begin{table}[H]
+\centering
+\caption{Descriptive statistics of key variables}
+\label{tab:desc}
+\begin{tabular}{lrrrr}
+\toprule
+Variable & Obs. & Mean & Std. Dev. & Max \\
+\midrule
+EV passenger-car sales share (\%) & 499 & 8.47 & 14.69 & 92.00 \\
+EV passenger-car stock share (\%) & 375 & 1.82 & 3.96 & 32.00 \\
+GDP per capita, PPP (USD) & 501 & 43913.04 & 23438.44 & 155941.29 \\
+Population (persons) & 501 & 99841914.09 & 273212674.59 & 1450935791 \\
+Brent oil price (USD/barrel) & 501 & 66.71 & 17.85 & 100.78 \\
+Public chargers (units) & 317 & 54464.39 & 279796.75 & 3500000 \\
+Chargers per million people & 317 & 771.90 & 1456.35 & 10448.23 \\
+Interpolated charger density (per million) & 346 & 712.81 & 1407.90 & 10448.23 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig1_ev_penetration_trend.png}
+\caption{EV penetration trends across major countries (2015--2024)}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig2_gdp_vs_penetration.png}
+\caption{GDP per capita vs. EV penetration (2024 cross-section)}
+\end{figure}
+
+\section{Empirical Strategy}
+\subsection{Baseline fixed-effects model}
+Let $y_{it}$ denote EV sales share in country $i$ and year $t$:
+\begin{equation}
+y_{it}=\alpha_i+\beta_1 \ln GDP_{it}+\beta_2 \ln Brent_t+\beta_3 \ln Pop_{it}+\beta_4 ChargerDensity_{it}+\varepsilon_{it}.
+\end{equation}
+
+\subsection{Two-way fixed-effects model}
+To control for global annual shocks:
+\begin{equation}
+y_{it}=\alpha_i+\gamma_t+\beta_1 \ln GDP_{it}+\beta_3 \ln Pop_{it}+\beta_4 ChargerDensity_{it}+\varepsilon_{it}.
+\end{equation}
+Because Brent prices are common across countries within each year, they are collinear with year fixed effects and excluded in the two-way specification. Standard errors are clustered at the country level \cite{Arellano1987,Wooldridge2010}.
+
+\subsection{Mechanism-oriented interaction specification}
+To formalize the infrastructure mechanism, we additionally consider:
+\begin{equation}
+y_{it}=\alpha_i+\beta_1 \ln GDP_{it}+\beta_2 \ln Brent_t+\beta_3 \ln Pop_{it}
++\beta_4 ChargerDensity_{it}
++\beta_5 \left[\ln GDP_{it}\times ChargerDensity_{it}\right]+\varepsilon_{it}.
+\end{equation}
+A positive $\beta_5$ implies infrastructure-income complementarity: higher charger density translates into larger EV penetration gains where purchasing power is stronger.
+
+\section{Results}
+\subsection{Baseline and robustness results}
+Table~\ref{tab:main} presents models M1--M5.
+
+\begin{table}[H]
+\centering
+\caption{Main regression results}
+\label{tab:main}
+\begin{threeparttable}
+\begin{tabular}{lccccc}
+\toprule
+Variables & M1 Baseline & M2 Main & M3 Two-way FE & M4 Alt. Dep. Var. & M5 Trimmed Sample \\
+\midrule
+$\ln(\text{GDP per capita})$ & 32.212*** & 30.253*** & 28.241* & 5.150** & 27.839*** \\
+ & (5.607) & (7.086) & (17.049) & (2.206) & (6.908) \\
+$\ln(\text{Brent})$ & -1.028 & -2.069 & --- & -0.900 & -1.526 \\
+ & (1.406) & (1.777) & --- & (0.628) & (1.529) \\
+$\ln(\text{Population})$ & 79.447** & 69.263 & 65.303 & 18.339** & 71.714 \\
+ & (34.173) & (43.939) & (50.835) & (8.844) & (44.836) \\
+Charger density (per million, interp.) & --- & 0.004*** & 0.005*** & 0.002*** & 0.004*** \\
+ & --- & (0.001) & (0.002) & (0.000) & (0.001) \\
+\midrule
+$N$ & 499 & 346 & 346 & 346 & 342 \\
+$R^2$ (within) & 0.461 & 0.632 & 0.630 & 0.655 & 0.607 \\
+Country FE & Yes & Yes & Yes & Yes & Yes \\
+Year FE & No & No & Yes & No & No \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Notes: Country-clustered robust standard errors in parentheses. * $p<0.1$, ** $p<0.05$, *** $p<0.01$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+The economic magnitude is non-trivial. In M2, the coefficient on $\ln(\text{GDP per capita})$ is 30.253, so a 1\% increase in GDP per capita is associated with about a 0.303 percentage-point increase in EV sales share, ceteris paribus. For charger density, the M2 coefficient is 0.004, implying that adding 100 chargers per million people is associated with about a 0.4 percentage-point increase in EV sales share. The positive sign remains in M3 (0.005***), indicating robust infrastructure effects after controlling for year shocks.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig3_chargers_vs_ev.png}
+\caption{Charger density and EV penetration}
+\end{figure}
+
+\subsection{Heterogeneity by income group}
+Countries are split into high-income (HIC) and non-high-income (UMC+LMC). Results are shown in Table~\ref{tab:hetero}.
+
+\begin{table}[H]
+\centering
+\caption{Heterogeneity results: HIC vs. non-HIC}
+\label{tab:hetero}
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+Variables & High-income (HIC) & Non-high-income (UMC+LMC) \\
+\midrule
+$\ln(\text{GDP per capita})$ & 35.289*** & 13.715** \\
+ & (7.727) & (5.488) \\
+$\ln(\text{Brent})$ & -1.872 & -0.797 \\
+ & (2.074) & (1.824) \\
+$\ln(\text{Population})$ & 125.826** & -23.029 \\
+ & (56.310) & (14.960) \\
+Charger density (per million, interp.) & 0.003** & 0.017*** \\
+ & (0.001) & (0.001) \\
+\midrule
+$N$ & 255 & 91 \\
+Countries & 27 & 11 \\
+$R^2$ (within) & 0.667 & 0.900 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Notes: Country-clustered robust standard errors in parentheses. * $p<0.1$, ** $p<0.05$, *** $p<0.01$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig4_heterogeneity.png}
+\caption{Heterogeneity in charger-density effect (HIC vs. non-HIC)}
+\end{figure}
+
+Charger-density effects are significantly positive in both income groups, but the magnitude is larger in non-HIC economies (0.017 vs 0.003). This indicates stronger marginal returns to infrastructure expansion in lower-density charging systems, consistent with a catch-up infrastructure dividend.
+
+\subsection{Mechanism analysis and endogeneity discussion}
+The mechanism evidence is mixed. In additional interaction checks, the coefficient on $\ln GDP\times ChargerDensity$ is not statistically significant (Appendix Table~\ref{tab:appendix_interaction}), while reduced-form estimates show robust positive coefficients on charger density. A density-form robustness comparison further indicates that the level specification is stable and significantly positive, whereas a log-density form is weak and sign-unstable in FE/TWFE settings. This suggests that the primary channel is broad infrastructure availability rather than strong GDP-dependent interaction effects.
+
+Endogeneity risks mainly include reverse causality (higher EV demand inducing charger construction) and omitted policy shocks. We mitigate these risks through three steps: (i) using density-level infrastructure indicators and short-gap interpolation to reduce noise from extreme growth-rate denominators and sample selection, (ii) controlling for time-invariant country heterogeneity with country fixed effects and global shocks with year fixed effects, and (iii) checking robustness using alternative dependent variables and trimmed samples. These steps do not fully eliminate endogeneity, but they substantially tighten identification relative to contemporaneous pooled correlations.
+
+\section{Policy Implications: Lessons for China}
+\begin{enumerate}
+    \item \textbf{Sustain usage-side infrastructure expansion with quality constraints.} Positive and robust charger-density coefficients indicate that charging availability remains a first-order adoption driver. Policy should continue expanding network density while improving reliability, interoperability, and grid coordination.
+    \item \textbf{Prioritize low-density regions for higher marginal returns.} Since charger-density effects are larger in non-high-income contexts, China can allocate incremental infrastructure more aggressively to lower-density regions and city clusters to capture stronger adoption gains.
+    \item \textbf{Strengthen statistical governance for strategic policy evaluation.} In line with ``serving national strategy through statistical innovation,'' a unified, high-frequency, province-level monitoring system for EV adoption, charging utilization, and effective user costs should be established to enable evidence-based policy iteration.
+\end{enumerate}
+
+\section{Conclusions}
+Using a 53-country panel (2015--2024), this paper finds that income and charger density are robust positive drivers of EV penetration under FE and TWFE specifications. Heterogeneity results show stronger infrastructure marginal effects in non-high-income economies, consistent with catch-up benefits from improving charging availability. Overall, the evidence supports policy rebalancing toward usage-side infrastructure expansion with region-differentiated implementation.
+
+\section{Limitations and Future Work}
+Two limitations remain. First, a reproducible country-year policy-intensity index and country-level electricity/retail-fuel price panel are not yet available in the final dataset; therefore, policy-price mechanisms are not directly estimated here. Second, the 10-year window constrains more advanced dynamic identification. Future work should prioritize building comparable policy-price panels and extending causal designs (e.g., dynamic panels and stronger instruments or external instruments for infrastructure rollout).
+
+\appendix
+\section{Appendix: Interaction-term mechanism test}
+\begin{table}[H]
+\centering
+\caption{Interaction-term test: $\ln GDP \times ChargerDensity$}
+\label{tab:appendix_interaction}
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+Variables & FE & Two-way FE \\
+\midrule
+$\ln GDP \times ChargerDensity$ & 0.000262 & 0.000556 \\
+ & (0.004786) & (0.005279) \\
+\midrule
+$N$ & 346 & 346 \\
+Country FE & Yes & Yes \\
+Year FE & No & Yes \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Notes: Country-clustered robust standard errors in parentheses. The interaction coefficient is not statistically significant in either specification.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\clearpage
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{99}
+\bibitem{Arellano1987}
+Arellano, M. (1987). Computing robust standard errors for within-groups estimators. \textit{Oxford Bulletin of Economics and Statistics}, 49(4), 431--434.
+
+\bibitem{EIABrent}
+U.S. Energy Information Administration (EIA). Europe Brent Spot Price FOB (series data).
+
+\bibitem{Hall2017}
+Hall, D., \& Lutsey, N. (2017). Emerging best practices for electric vehicle charging infrastructure. \textit{International Council on Clean Transportation Working Paper}.
+
+\bibitem{Hardman2018}
+Hardman, S., Jenn, A., Tal, G., Axsen, J., Beard, G., Daina, N., et al. (2018). A review of consumer preferences of and interactions with electric vehicle charging infrastructure. \textit{Transportation Research Part D}, 62, 508--523.
+
+\bibitem{IEA2025}
+International Energy Agency (IEA). (2025). \textit{Global EV Outlook 2025}.
+
+\bibitem{Li2017}
+Li, S., Tong, L., Xing, J., \& Zhou, Y. (2017). The market for electric vehicles: Indirect network effects and policy design. \textit{Journal of the Association of Environmental and Resource Economists}, 4(1), 89--133.
+
+\bibitem{Sierzchula2014}
+Sierzchula, W., Bakker, S., Maat, K., \& van Wee, B. (2014). The influence of financial incentives and other socio-economic factors on electric vehicle adoption. \textit{Energy Policy}, 68, 183--194.
+
+\bibitem{Wooldridge2010}
+Wooldridge, J. M. (2010). \textit{Econometric Analysis of Cross Section and Panel Data} (2nd ed.). MIT Press.
+
+\bibitem{WorldBankWDI}
+World Bank. World Development Indicators (WDI), API indicators NY.GDP.PCAP.PP.CD and SP.POP.TOTL.
+\end{thebibliography}
+
+\end{document}

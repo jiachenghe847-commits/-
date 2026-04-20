@@ -1,0 +1,15 @@
+﻿variable,rows_model_window,missing_model_window,coverage_rate_model_window
+ev_sales_share_cars,501,2,0.9960079840319361
+ev_stock_share_cars,501,126,0.7485029940119761
+chargers_total,501,184,0.6327345309381238
+chargers_per_mn,501,184,0.6327345309381238
+chargers_per_mn_itp,501,155,0.6906187624750499
+ln_charger_density_itp,501,155,0.6906187624750499
+chargers_growth,501,201,0.5988023952095809
+chargers_growth_lag1,501,221,0.5588822355289421
+gdp_pc_ppp,501,0,1.0
+population,501,0,1.0
+brent_usd,501,0,1.0
+income_group,501,0,1.0
+countries,53,0,1.0
+rows_context_window,572,0,1.0
